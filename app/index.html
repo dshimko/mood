@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Grid Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="grid.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+
+      <h1>Mood?</h1>
+
+      <div class="row">
+        <div class="col-md-4 vote" data-vote='1'>Curious</div>
+        <div class="col-md-4 vote" data-vote='2'>Amused</div>
+        <div class="col-md-4 vote" data-vote='3'>Excited</div>
+        <div class="col-md-4 vote" data-vote='4'>Hungry</div>
+        <div class="col-md-4 vote" data-vote='5'>Impressed</div>
+        <div class="col-md-4 vote" data-vote='6'>Cantankerous</div>
+        <div class="col-md-4 vote" data-vote='7'>Satisfied</div>
+        <div class="col-md-4 vote" data-vote='8'>Rushed</div>
+        <div class="col-md-4 vote" data-vote='9'>Comme ci Comme ça</div>
+      </div>
+
+    </div> <!-- /container -->
+<!-- Modal -->
+<div class="modal fade" id="voteSuccessModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Mood Noted</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="moodSuccessMessage">
+          So Excited!!!
+        </div>
+        <img id="moodSuccessImage" width="533" src="assets/img/gifs/excited.gif" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+    var timeoutHandle = setTimeout(function(){
+        $('#voteSuccessModal').modal('hide');;
+      },15555);
+
+    var success = {
+      1:{
+        "text":'So Curious',
+        "gif":'assets/img/excited.gif',
+      },
+      2:{"text":'Amused!',
+        "gif":'assets/img/busy.gif'
+      },
+      3:{"text":'So Excited',
+        "gif":'assets/img/excited.gif'
+      },
+      4:{"text":'Hungry',
+        "gif":'assets/img/inspired.gif'
+      },
+      5:{"text":'So Impressed',
+        "gif":'assets/img/inspired.gif'
+      },
+      6:{"text":'So Cantankerous',
+        "gif":'assets/img/dwight-no.gif'
+      },
+      7:{"text":'So Satisfied',
+        "gif":'assets/img/Happy.gif'
+      },
+      8:{"text":'So Rushed',
+        "gif":'assets/img/busy.gif'
+      },
+      9:{"text":'So So',
+        "gif":'assets/img/bored.gif'
+      }
+    };
+    $('.vote').hover(function() {
+        $(this).css('cursor','pointer');
+    }).click(function(){
+      var vote = $(this).data('vote');
+
+      // update modal details
+      console.log(vote,success[vote]);
+      if(typeof(success[vote]) === 'object'){
+        $('#moodSuccessMessage').text(success[vote].text);
+        $('#moodSuccessImage').attr('src',success[vote].gif);
+      }
+
+      // pop modal
+      $('#voteSuccessModal').modal({refresh: true});
+      // close in 15 seconds
+      clearTimeout(timeoutHandle);
+      timeoutHandle = setTimeout(function(){
+        $('#voteSuccessModal').modal('hide');;
+      },15555);
+
+      if(typeof(vote)!== undefined){
+        var url = '/api/vote';
+        // Send the data using post
+        var posting = $.post( url, { vote: vote} );
+
+        // Put the results in a div
+        posting.done(function( data ) {
+          var content = $( data ).find( "#content" );
+          $( "#result" ).empty().append( content );
+        });
+
+      }
+    });
+
+    </script>
+  </body>
+</html>

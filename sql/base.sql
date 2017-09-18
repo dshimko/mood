@@ -1,0 +1,6 @@
+CREATE USER 'dbuser'@'%' IDENTIFIED BY 'WJ@3%8Z@OxuJfdt3m3';
+GRANT ALL PRIVILEGES ON *.* TO 'dbuser'@'%';
+FLUSH PRIVILEGES;
+CREATE DATABASE vote;
+USE vote;
+

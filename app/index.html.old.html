@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Grid Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="grid.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+
+      <h1>Mood?</h1>
+
+      <div class="row">
+        <div class="col-md-4 vote" data-vote='1'>Curious</div>
+        <div class="col-md-4 vote" data-vote='2'>Amused</div>
+        <div class="col-md-4 vote" data-vote='3'>Full</div>
+        <div class="col-md-4 vote" data-vote='4'>Hungry</div>
+        <div class="col-md-4 vote" data-vote='5'>Impressed</div>
+        <div class="col-md-4 vote" data-vote='6'>Cantankerous</div>
+        <div class="col-md-4 vote" data-vote='7'>Satisfied</div>
+        <div class="col-md-4 vote" data-vote='8'>Rushed</div>
+        <div class="col-md-4 vote" data-vote='9'>Comme ci Comme ça</div>
+      </div>
+
+    </div> <!-- /container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+
+
+    $('.vote').hover(function() {
+        $(this).css('cursor','pointer');
+    }).click(function(){
+      var vote = $(this).data('vote');
+      if(typeof(vote)!== undefined){
+        var url = 'http://10.10.10.10/bah';
+        // Send the data using post
+        var posting = $.post( url, { vote: vote} );
+
+        // Put the results in a div
+        posting.done(function( data ) {
+          var content = $( data ).find( "#content" );
+          $( "#result" ).empty().append( content );
+        });
+
+      }
+    });
+
+    </script>
+  </body>
+</html>

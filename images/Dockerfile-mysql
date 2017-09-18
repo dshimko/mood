@@ -1,0 +1,2 @@
+FROM mariadb:10.3
+ADD sql/base.sql /docker-entrypoint-initdb.d/base.sql

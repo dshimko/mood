@@ -1,0 +1,25 @@
+version: "3"
+services:
+
+    # mysql:
+    #     build:
+    #         context: ./
+    #         dockerfile: images/Dockerfile-mysql
+    #     restart: always
+    #     ports:
+    #         - "3306:3306"
+    #     environment:
+    #       - MYSQL_ROOT_PASSWORD=pass
+    web:
+        build:
+            context: ./
+            dockerfile: images/Dockerfile-nginx
+        restart: always
+        ports:
+            - "8040:80"
+        volumes:
+            - ./app:/app
+            - ./etc/nginx/site.conf:/etc/nginx/conf.d/default.conf
+        # links:
+        #     - mysql
+
