@@ -47,7 +47,7 @@
         <div id="moodSuccessMessage">
           So Excited!!!
         </div>
-        <img id="moodSuccessImage" width="533" src="assets/img/gifs/excited.gif" />
+        <img id="moodSuccessImage" width="533" src="assets/img/excited.gif" style="max-width: 100%;" />
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -120,16 +120,19 @@
       },15555);
 
       if(typeof(vote)!== undefined){
-        var url = '/api/vote';
-        // Send the data using post
-        var posting = $.post( url, { vote: vote} );
-
         // Put the results in a div
-        posting.done(function( data ) {
-          var content = $( data ).find( "#content" );
-          $( "#result" ).empty().append( content );
-        });
+	$.ajax({
+		contentType: "application/json",
+    		url: 'https://mood-e2ec6.firebaseio.com/rest/mood.json', // your api url
+    		method: 'post', // method is any HTTP method
+    		data: JSON.stringify({vote:vote,created:(Math.floor(Date.now() / 1000))}), // data as js object 
+		success: function(data) {
+			console.log(data);
+			var content = $( data ).find( "#content" );
+		        $( "#result" ).empty().append( content );
 
+		}
+	});
       }
     });
 
