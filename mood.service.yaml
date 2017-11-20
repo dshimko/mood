@@ -1,7 +1,8 @@
+---
 kind: Service
 apiVersion: v1
 metadata:
-  name: mood-service
+  name: mood
 spec:
   selector:
     app: mood
@@ -9,3 +10,4 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
+  type: LoadBalancer
