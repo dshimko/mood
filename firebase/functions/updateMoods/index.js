@@ -6,9 +6,11 @@ admin.initializeApp(functions.config().firebase);
 
 // Keeps track of the length of the 'likes' child list in a separate property.
 exports.countlikechange = functions.database.ref('/rest/mood').onWrite(event => {
-  const collectionRef = event.data.ref.parent;
-  const countRef = collectionRef.parent.child('Current Mood');
-
+  const collectionRef = event.data.ref;
+const lastTenRef = collectionRef.orderByKey().limitToLast(10);
+  const countRef = collectionRef.parent.child('mood_count');
+  const currentRef = collectionRef.parent.child('mood_current');
+  
   // Return the promise from countRef.transaction() so our function 
   // waits for this async event to complete before it exits.
   return countRef.transaction(current => {
@@ -19,19 +21,26 @@ exports.countlikechange = functions.database.ref('/rest/mood').onWrite(event => 
       return (current || 0) - 1;
     }
   }).then(() => {
-    console.log('Counter updated.');
-  });
-});
+        // Return the promise from counterRef.set() so our function
+    // waits for this async event to complete before it exits.
+    return lastTenRef.once('value')
+        .then(lastTen => {
+console.log(lastTen.val());
 
-// If the number of likes gets deleted, recount the number of likes
-exports.recountlikes = functions.database.ref('/rest/Current Mood').onWrite(event => {
-  if (!event.data.exists()) {
-    const counterRef = event.data.ref;
-    const collectionRef = counterRef.parent.child('mood');
-    
-    // Return the promise from counterRef.set() so our function 
+                console.log('current updated.');
+        });
+  }).then(() => {
+	// Return the promise from counterRef.set() so our function
     // waits for this async event to complete before it exits.
     return collectionRef.once('value')
-        .then(messagesData => counterRef.set(messagesData.numChildren()));
-  }
+        .then(messagesData => {
+		currentRef.set(3);
+		countRef.set(messagesData.numChildren());
+		console.log('Counter updated.');
+	});
+  }).then(() => {
+    console.log('Count update function is done.');
+  });
+
 });
+

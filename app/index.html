@@ -35,7 +35,7 @@
         <div class="col-md-4 vote" data-vote='6'>Cantankerous</div>
         <div class="col-md-4 vote" data-vote='7'>Satisfied</div>
         <div class="col-md-4 vote" data-vote='8'>Rushed</div>
-        <div class="col-md-4 vote" data-vote='9'>Come ci Come ca</div>
+        <div class="col-md-4 vote" data-vote='9'>Così Così</div>
       </div>
 
     </div> <!-- /container -->
@@ -78,7 +78,12 @@
     var success = {
       1:{
         "text":'So Curious',
-        "gif":'assets/img/excited.gif',
+        "gif":[
+		'assets/img/excited.gif',
+                'assets/img/excited2.gif',
+                'assets/img/excited3.gif',
+
+	]
       },
       2:{"text":'Amused!',
         "gif":'assets/img/busy.gif'
@@ -121,7 +126,11 @@ ga('send', {
       console.log(vote,success[vote]);
       if(typeof(success[vote]) === 'object'){
         $('#moodSuccessMessage').text(success[vote].text);
-        $('#moodSuccessImage').attr('src',success[vote].gif);
+	var gif = success[vote].gif;
+	if(Array.isArray(gif)){
+		gif = gif[Math.floor(Math.random()*gif.length)];
+	}
+        $('#moodSuccessImage').attr('src',gif);
       }
 
       // pop modal
