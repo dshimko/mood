@@ -4,13 +4,10 @@ services:
         build:
             context: ./
             dockerfile: images/Dockerfile-nginx
-        env:
-          - name: GA_PROPERTY_ID
-            value: foo
-          - name: FIREBASE_DATA_PATH
-            value: path
-          - name: FIREBASE_URL
-            value: mood
+        environment:
+          - GA_PROPERTY_ID=foo
+          - FIREBASE_ENDPOINT=somepath
+          - FIREBASE_URL=mood
         ports:
             - "8040:80"
         volumes:
