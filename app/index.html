@@ -24,7 +24,7 @@
   <body>
     <div class="container">
 
-      <h1>Umore</h1>
+      <h1>Umore (Mood?)</h1>
 
       <div class="row">
         <div class="col-md-4 vote" data-vote='1'>Curious</div>
@@ -32,7 +32,7 @@
         <div class="col-md-4 vote" data-vote='3'>Excited</div>
         <div class="col-md-4 vote" data-vote='4'>Hungry</div>
         <div class="col-md-4 vote" data-vote='5'>Impressed</div>
-        <div class="col-md-4 vote" data-vote='6'>Cantankerous</div>
+        <div class="col-md-4 vote" data-vote='6'>Frustrated</div>
         <div class="col-md-4 vote" data-vote='7'>Satisfied</div>
         <div class="col-md-4 vote" data-vote='8'>Rushed</div>
         <div class="col-md-4 vote" data-vote='9'>Così Così</div>
@@ -53,7 +53,7 @@
         <div id="moodSuccessMessage">
           So Excited!!!
         </div>
-        <img id="moodSuccessImage" width="533" src="assets/img/excited.gif" style="max-width: 100%;" />
+        <img id="moodSuccessImage" width="533" src="" style="max-width: 100%;" />
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -79,44 +79,46 @@
       1:{
         "text":'So Curious',
         "gif":[
-		'assets/img/curious.gif',
-		'assets/img/curious2.gif',
-		'assets/img/curious3.gif'
+		'curious.gif',
+		'curious2.gif',
+		'curious3.gif'
 
 	]
       },
       2:{"text":'Amused!',
-        "gif":'assets/img/amused.gif'
+        "gif":'amused.gif'
       },
       3:{"text":'So Excited',
-        "gif":['assets/img/excited.gif'
-                'assets/img/excited2.gif',
-                'assets/img/excited3.gif',
+        "gif":['excited.gif',
+                'excited2.gif',
+                'excited3.gif'
 	]
       },
       4:{"text":'Hungry',
-        "gif":['assets/img/hungry.gif','assets/img/hungry2.gif']
+        "gif":['hungry.gif','hungry2.gif']
       },
       5:{"text":'So Impressed',
-        "gif":'assets/img/inspired.gif'
+        "gif":'inspired.gif'
       },
       6:{"text":'So Frustrated',
-        "gif":['assets/img/frustrated.gif','assets/img/frustrated2.gif']
+        "gif":['frustrated.gif','frustrated2.gif']
       },
       7:{"text":'So Satisfied',
-        "gif":['assets/img/Happy.gif','assets/img/Happy2.gif']
+        "gif":['Happy.gif','Happy2.gif']
       },
       8:{"text":'So Rushed',
-        "gif":['assets/img/busy.gif','assets/img/overwhelmed.gif','assets/img/overwhelmed2.gif']
+        "gif":['busy.gif','overwhelmed.gif','overwhelmed2.gif']
       },
       9:{"text":'So So',
-        "gif":['assets/img/bored.gif','assets/img/so-so2.gif']
+        "gif":['bored.gif','so-so2.gif']
       }
     };
     $('.vote').hover(function() {
         $(this).css('cursor','pointer');
     })
     .click(function(){
+	$('#moodSuccessImage').attr('src','');
+	$('#moodSuccessImage').attr('src','assets/img/loading.gif');
       var vote = $(this).data('vote');
 ga('send', {
   hitType: 'event',
@@ -128,12 +130,13 @@ ga('send', {
       // update modal details
       console.log(vote,success[vote]);
       if(typeof(success[vote]) === 'object'){
+	
         $('#moodSuccessMessage').text(success[vote].text);
 	var gif = success[vote].gif;
 	if(Array.isArray(gif)){
 		gif = gif[Math.floor(Math.random()*gif.length)];
 	}
-        $('#moodSuccessImage').attr('src',gif);
+        $('#moodSuccessImage').attr('src','assets/img/' + gif);
       }
 
       // pop modal
@@ -148,7 +151,7 @@ ga('send', {
         // Put the results in a div
 	$.ajax({
 		contentType: "application/json",
-    		url: 'https://mood-e2ec6.firebaseio.com/rest/mood.json', // your api url
+    		url: 'https://FIREBASE_URL.firebaseio.com/FIREBASE_DATA_PATH', // your api url
     		method: 'post', // method is any HTTP method
     		data: JSON.stringify({vote:vote,created:(Math.floor(Date.now() / 1000))}), // data as js object 
 		success: function(data) {
@@ -169,7 +172,7 @@ ga('send', {
     [0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    ga('create', 'UA-107428096-1', 'auto') ; 
+    ga('create', 'GA_PROPERTY_ID', 'auto') ; 
 </script>
 
   </body>

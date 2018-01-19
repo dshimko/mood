@@ -1,25 +1,18 @@
 version: "3"
 services:
-
-    # mysql:
-    #     build:
-    #         context: ./
-    #         dockerfile: images/Dockerfile-mysql
-    #     restart: always
-    #     ports:
-    #         - "3306:3306"
-    #     environment:
-    #       - MYSQL_ROOT_PASSWORD=pass
     web:
         build:
             context: ./
             dockerfile: images/Dockerfile-nginx
-        restart: always
+        env:
+          - name: GA_PROPERTY_ID
+            value: foo
+          - name: FIREBASE_DATA_PATH
+            value: path
+          - name: FIREBASE_URL
+            value: mood
         ports:
             - "8040:80"
         volumes:
             - ./app:/app
             - ./etc/nginx/site.conf:/etc/nginx/conf.d/default.conf
-        # links:
-        #     - mysql
-
