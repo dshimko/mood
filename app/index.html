@@ -151,7 +151,7 @@ ga('send', {
         // Put the results in a div
 	$.ajax({
 		contentType: "application/json",
-    		url: 'https://FIREBASE_URL.firebaseio.com/FIREBASE_DATA_PATH', // your api url
+    		url: 'https://FIREBASE_URL.firebaseio.com/FIREBASE_ENDPOINT', // your api url
     		method: 'post', // method is any HTTP method
     		data: JSON.stringify({vote:vote,created:(Math.floor(Date.now() / 1000))}), // data as js object 
 		success: function(data) {
