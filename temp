@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: mood
+  name: mood
+  namespace: mood
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mood
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mood
+      name: mood
+    spec:
+      containers:
+      - env:
+        - name: GA_PROPERTY_ID
+          value: someID
+        - name: FIREBASE_ENDPOINT
+          value: someEndpoint
+        - name: FIREBASE_URL
+          value: someSudDomain
+        command:
+        - "/bootstrap.sh"
+        args:
+          - GA_PROPERTY_ID=iasdf
+        image: dshimko/mood:v41
+        imagePullPolicy: Always
+        name: mood
+        resources: {}
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log

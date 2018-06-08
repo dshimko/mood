@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: mood
+  name: mood
+  namespace: mood
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: mood
+  type: NodePort
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mood
+  namespace: mood
+spec:
+  rules:
+  - host: mood.fcaimages.com
+    http:
+      paths:
+      - backend:
+          serviceName: sir-web
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - mood.fcaimages.com
+    secretName: tls-certificate
